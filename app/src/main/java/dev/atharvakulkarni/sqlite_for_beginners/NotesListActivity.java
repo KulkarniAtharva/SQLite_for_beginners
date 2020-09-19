@@ -34,7 +34,6 @@ public class NotesListActivity extends AppCompatActivity implements NotesRecycle
     private NotesRecyclerAdapter mNoteRecyclerAdapter;
     private NoteRepository mNoteRepository;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -52,7 +51,6 @@ public class NotesListActivity extends AppCompatActivity implements NotesRecycle
         setSupportActionBar((Toolbar)findViewById(R.id.notes_toolbar));
         setTitle("Notes");
     }
-
 
     private void retrieveNotes()
     {
@@ -94,7 +92,6 @@ public class NotesListActivity extends AppCompatActivity implements NotesRecycle
         mNoteRecyclerAdapter = new NotesRecyclerAdapter(mNotes, this);
         mRecyclerView.setAdapter(mNoteRecyclerAdapter);
     }
-
 
     @Override
     public void onNoteClick(int position)

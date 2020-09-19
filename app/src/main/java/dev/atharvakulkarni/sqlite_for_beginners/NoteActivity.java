@@ -21,7 +21,6 @@ import dev.atharvakulkarni.sqlite_for_beginners.util.Utility;
 public class NoteActivity extends AppCompatActivity implements View.OnTouchListener, GestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener, View.OnClickListener, TextWatcher
 {
-
     private static final String TAG = "NoteActivity";
     private static final int EDIT_MODE_ENABLED = 1;
     private static final int EDIT_MODE_DISABLED = 0;
@@ -33,7 +32,6 @@ public class NoteActivity extends AppCompatActivity implements View.OnTouchListe
     private RelativeLayout mCheckContainer, mBackArrowContainer;
     private ImageButton mCheck, mBackArrow;
 
-
     // vars
     private boolean mIsNewNote;
     private Note mNoteInitial;
@@ -41,7 +39,6 @@ public class NoteActivity extends AppCompatActivity implements View.OnTouchListe
     private int mMode;
     private NoteRepository mNoteRepository;
     private Note mNoteFinal;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,33 +57,38 @@ public class NoteActivity extends AppCompatActivity implements View.OnTouchListe
 
         setListeners();
 
-        if(getIncomingIntent()){
+        if(getIncomingIntent())
+        {
             setNewNoteProperties();
             enableEditMode();
         }
-        else{
+        else
+        {
             setNoteProperties();
             disableContentInteraction();
         }
     }
 
-    private void saveChanges(){
-        if(mIsNewNote){
+    private void saveChanges()
+    {
+        if(mIsNewNote)
             saveNewNote();
-        }else{
+        else
             updateNote();
-        }
     }
 
-    public void updateNote() {
+    public void updateNote()
+    {
         mNoteRepository.updateNoteTask(mNoteFinal);
     }
 
-    public void saveNewNote() {
+    public void saveNewNote()
+    {
         mNoteRepository.insertNoteTask(mNoteFinal);
     }
 
-    private void setListeners(){
+    private void setListeners()
+    {
         mGestureDetector = new GestureDetector(this, this);
         mLinedEditText.setOnTouchListener(this);
         mCheck.setOnClickListener(this);
@@ -95,8 +97,10 @@ public class NoteActivity extends AppCompatActivity implements View.OnTouchListe
         mEditTitle.addTextChangedListener(this);
     }
 
-    private boolean getIncomingIntent(){
-        if(getIntent().hasExtra("selected_note")){
+    private boolean getIncomingIntent()
+    {
+        if(getIntent().hasExtra("selected_note"))
+        {
             mNoteInitial = getIntent().getParcelableExtra("selected_note");
 
             mNoteFinal = new Note();
@@ -114,7 +118,8 @@ public class NoteActivity extends AppCompatActivity implements View.OnTouchListe
         return true;
     }
 
-    private void disableContentInteraction(){
+    private void disableContentInteraction()
+    {
         mLinedEditText.setKeyListener(null);
         mLinedEditText.setFocusable(false);
         mLinedEditText.setFocusableInTouchMode(false);
@@ -122,7 +127,8 @@ public class NoteActivity extends AppCompatActivity implements View.OnTouchListe
         mLinedEditText.clearFocus();
     }
 
-    private void enableContentInteraction(){
+    private void enableContentInteraction()
+    {
         mLinedEditText.setKeyListener(new EditText(this).getKeyListener());
         mLinedEditText.setFocusable(true);
         mLinedEditText.setFocusableInTouchMode(true);
@@ -130,7 +136,8 @@ public class NoteActivity extends AppCompatActivity implements View.OnTouchListe
         mLinedEditText.requestFocus();
     }
 
-    private void enableEditMode(){
+    private void enableEditMode()
+    {
         mBackArrowContainer.setVisibility(View.GONE);
         mCheckContainer.setVisibility(View.VISIBLE);
 
@@ -142,7 +149,8 @@ public class NoteActivity extends AppCompatActivity implements View.OnTouchListe
         enableContentInteraction();
     }
 
-    private void disableEditMode(){
+    private void disableEditMode()
+    {
         Log.d(TAG, "disableEditMode: called.");
         mBackArrowContainer.setVisibility(View.VISIBLE);
         mCheckContainer.setVisibility(View.GONE);
@@ -158,7 +166,8 @@ public class NoteActivity extends AppCompatActivity implements View.OnTouchListe
         String temp = mLinedEditText.getText().toString();
         temp = temp.replace("\n", "");
         temp = temp.replace(" ", "");
-        if(temp.length() > 0){
+        if(temp.length() > 0)
+        {
             mNoteFinal.setTitle(mEditTitle.getText().toString());
             mNoteFinal.setContent(mLinedEditText.getText().toString());
             String timestamp = Utility.getCurrentTimeStamp();
@@ -168,15 +177,16 @@ public class NoteActivity extends AppCompatActivity implements View.OnTouchListe
             Log.d(TAG, "disableEditMode: final: " + mNoteFinal.toString());
 
             // If the note was altered, save it.
-            if(!mNoteFinal.getContent().equals(mNoteInitial.getContent())
-                    || !mNoteFinal.getTitle().equals(mNoteInitial.getTitle())){
+            if(!mNoteFinal.getContent().equals(mNoteInitial.getContent()) || !mNoteFinal.getTitle().equals(mNoteInitial.getTitle()))
+            {
                 Log.d(TAG, "disableEditMode: called?");
                 saveChanges();
             }
         }
     }
 
-    private void setNewNoteProperties(){
+    private void setNewNoteProperties()
+    {
         mViewTitle.setText("Note Title");
         mEditTitle.setText("Note Title");
 
@@ -185,76 +195,92 @@ public class NoteActivity extends AppCompatActivity implements View.OnTouchListe
         mNoteInitial.setTitle("Note Title");
     }
 
-    private void setNoteProperties(){
+    private void setNoteProperties()
+    {
         mViewTitle.setText(mNoteInitial.getTitle());
         mEditTitle.setText(mNoteInitial.getTitle());
         mLinedEditText.setText(mNoteInitial.getContent());
     }
 
     @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
+    public boolean onTouch(View view, MotionEvent motionEvent)
+    {
         return mGestureDetector.onTouchEvent(motionEvent);
     }
 
     @Override
-    public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
+    public boolean onSingleTapConfirmed(MotionEvent motionEvent)
+    {
         return false;
     }
 
     @Override
-    public boolean onDoubleTap(MotionEvent motionEvent) {
+    public boolean onDoubleTap(MotionEvent motionEvent)
+    {
         Log.d(TAG, "onDoubleTap: double tapped.");
         enableEditMode();
         return false;
     }
 
     @Override
-    public boolean onDoubleTapEvent(MotionEvent motionEvent) {
+    public boolean onDoubleTapEvent(MotionEvent motionEvent)
+    {
         return false;
     }
 
     @Override
-    public boolean onDown(MotionEvent motionEvent) {
+    public boolean onDown(MotionEvent motionEvent)
+    {
         return false;
     }
 
     @Override
-    public void onShowPress(MotionEvent motionEvent) {
+    public void onShowPress(MotionEvent motionEvent)
+    {
 
     }
 
     @Override
-    public boolean onSingleTapUp(MotionEvent motionEvent) {
+    public boolean onSingleTapUp(MotionEvent motionEvent)
+    {
         return false;
     }
 
     @Override
-    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1)
+    {
         return false;
     }
 
     @Override
-    public void onLongPress(MotionEvent motionEvent) {
+    public void onLongPress(MotionEvent motionEvent)
+    {
 
     }
 
     @Override
-    public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+    public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1)
+    {
         return false;
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.toolbar_back_arrow:{
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.toolbar_back_arrow:
+            {
                 finish();
                 break;
             }
-            case R.id.toolbar_check:{
+            case R.id.toolbar_check:
+            {
                 disableEditMode();
                 break;
             }
-            case R.id.note_text_title:{
+            case R.id.note_text_title:
+            {
                 enableEditMode();
                 mEditTitle.requestFocus();
                 mEditTitle.setSelection(mEditTitle.length());
@@ -264,42 +290,45 @@ public class NoteActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     @Override
-    public void onBackPressed() {
-        if(mMode == EDIT_MODE_ENABLED){
+    public void onBackPressed()
+    {
+        if(mMode == EDIT_MODE_ENABLED)
             onClick(mCheck);
-        }
-        else{
+        else
             super.onBackPressed();
-        }
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(Bundle outState)
+    {
         super.onSaveInstanceState(outState);
         outState.putInt("mode", mMode);
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
         super.onRestoreInstanceState(savedInstanceState);
         mMode = savedInstanceState.getInt("mode");
-        if(mMode == EDIT_MODE_ENABLED){
+        if(mMode == EDIT_MODE_ENABLED)
             enableEditMode();
-        }
     }
 
     @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+    {
 
     }
 
     @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+    {
         mViewTitle.setText(charSequence.toString());
     }
 
     @Override
-    public void afterTextChanged(Editable editable) {
+    public void afterTextChanged(Editable editable)
+    {
 
     }
 }

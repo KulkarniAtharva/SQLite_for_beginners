@@ -12,8 +12,8 @@ import java.util.List;
 import dev.atharvakulkarni.sqlite_for_beginners.models.Note;
 
 @Dao
-public interface NoteDao {
-
+public interface NoteDao
+{
     @Insert
     long[] insertNotes(Note... notes);
 

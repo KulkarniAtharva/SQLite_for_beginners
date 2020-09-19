@@ -37,27 +37,31 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-        try{
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+    {
+        try
+        {
             String month = mNotes.get(position).getTimestamp().substring(0, 2);
             month = Utility.getMonthFromNumber(month);
             String year = mNotes.get(position).getTimestamp().substring(3);
             String timestamp = month + " " + year;
             holder.timestamp.setText(timestamp);
             holder.title.setText(mNotes.get(position).getTitle());
-        }catch (NullPointerException e){
+        }
+        catch (NullPointerException e)
+        {
             Log.e(TAG, "onBindViewHolder: Null Pointer: " + e.getMessage() );
         }
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return mNotes.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    {
         TextView timestamp, title;
         OnNoteListener mOnNoteListener;
 
@@ -72,13 +76,15 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick(View view)
+        {
             Log.d(TAG, "onClick: " + getAdapterPosition());
             mOnNoteListener.onNoteClick(getAdapterPosition());
         }
     }
 
-    public interface OnNoteListener{
+    public interface OnNoteListener
+    {
         void onNoteClick(int position);
     }
 }

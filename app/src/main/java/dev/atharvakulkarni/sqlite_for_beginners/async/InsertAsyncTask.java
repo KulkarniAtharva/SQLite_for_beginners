@@ -5,18 +5,19 @@ import android.os.AsyncTask;
 import dev.atharvakulkarni.sqlite_for_beginners.models.Note;
 import dev.atharvakulkarni.sqlite_for_beginners.persistence.NoteDao;
 
-public class InsertAsyncTask extends AsyncTask<Note, Void, Void> {
-
+public class InsertAsyncTask extends AsyncTask<Note, Void, Void>
+{
     private NoteDao mNoteDao;
 
-    public InsertAsyncTask(NoteDao dao) {
+    public InsertAsyncTask(NoteDao dao)
+    {
         mNoteDao = dao;
     }
 
     @Override
-    protected Void doInBackground(Note... notes) {
+    protected Void doInBackground(Note... notes)
+    {
         mNoteDao.insertNotes(notes);
         return null;
     }
-
 }
