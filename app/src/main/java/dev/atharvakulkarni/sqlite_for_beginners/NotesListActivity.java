@@ -116,6 +116,7 @@ public class NotesListActivity extends AppCompatActivity implements NotesRecycle
         mNoteRepository.deleteNoteTask(note);
     }
 
+    // for swipe actions of lists in recycler view
     ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT)
     {
         @Override
