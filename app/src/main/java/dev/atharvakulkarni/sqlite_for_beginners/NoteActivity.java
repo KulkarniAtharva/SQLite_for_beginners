@@ -45,6 +45,7 @@ public class NoteActivity extends AppCompatActivity implements View.OnTouchListe
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
+
         mLinedEditText = findViewById(R.id.note_text);
         mEditTitle = findViewById(R.id.note_edit_title);
         mViewTitle = findViewById(R.id.note_text_title);

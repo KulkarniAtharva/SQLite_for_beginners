@@ -33,7 +33,6 @@ public class Note implements Parcelable
     @Ignore
     public Note()
     {
-
     }
 
     protected Note(Parcel in)
